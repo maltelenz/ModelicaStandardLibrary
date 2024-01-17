@@ -74,6 +74,8 @@ endif()
 # UNIX configurations...
 if (UNIX)
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O3 -Wno-attributes -fno-delete-null-pointer-checks")
+elseif (MSVC)
+    add_definitions(-D_CRT_SECURE_NO_WARNINGS /W3)
 endif()
 
 # Set installation prefix
