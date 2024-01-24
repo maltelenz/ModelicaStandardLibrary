@@ -1,5 +1,9 @@
 include(CheckSymbolExists)
 check_symbol_exists(memcpy "string.h" HAVE_MEMCPY)
+check_symbol_exists(_open "io.h" HAVE__OPEN)
+check_symbol_exists(_read "io.h" HAVE__READ)
+check_symbol_exists(_write "io.h" HAVE__WRITE)
+check_symbol_exists(_close "io.h" HAVE__CLOSE)
 
 include(CheckIncludeFile)
 check_include_file("dirent.h" HAVE_DIRENT_H)
