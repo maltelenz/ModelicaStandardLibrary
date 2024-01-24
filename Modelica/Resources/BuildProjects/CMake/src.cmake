@@ -108,6 +108,9 @@ if(HAVE_WINAPIFAMILY_H)
   target_compile_definitions(zlib PUBLIC -DWINAPI_FAMILY=100)
 endif()
 target_compile_definitions(ModelicaMatIO PUBLIC -DHAVE_ZLIB=1)
+if(MSVC)
+  target_compile_options(ModelicaMatIO PUBLIC /wd4267)
+endif()
 
 install(
   TARGETS ModelicaStandardTables ModelicaMatIO ModelicaIO zlib
