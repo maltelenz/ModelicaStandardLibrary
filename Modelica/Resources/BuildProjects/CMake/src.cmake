@@ -31,7 +31,13 @@ elseif(MSVC)
   add_definitions(-D_CRT_SECURE_NO_WARNINGS /W3)
 endif()
 
-include_directories("${ABSOLUTE_MODELICA_RESOURCES_DIR}/C-Sources/zlib")
+if(MODELICA_BUILD_ZLIB)
+  set(ZLIB_HEADER_LOCATION "${MODELICA_RESOURCES_DIR}/C-Sources/zlib")
+elseif(NOT DEFINED ZLIB_HEADER_LOCATION)
+  message(FATAL_ERROR "MODELICA_BUILD_ZLIB was turned off, but ZLIB_HEADER_LOCATION was not provided.")
+endif()
+
+include_directories("${ZLIB_HEADER_LOCATION}")
 
 set(EXTC_SOURCES
   "${MODELICA_RESOURCES_DIR}/C-Sources/ModelicaFFT.c"
@@ -63,6 +69,8 @@ set(TABLES_SOURCES
   "${MODELICA_UTILITIES_INCLUDE}/ModelicaUtilities.h"
 )
 
+
+
 set(MATIO_SOURCES
   "${MODELICA_RESOURCES_DIR}/C-Sources/ModelicaMatIO.c"
   "${MODELICA_RESOURCES_DIR}/C-Sources/ModelicaMatIO.h"
@@ -70,7 +78,7 @@ set(MATIO_SOURCES
   "${MODELICA_RESOURCES_DIR}/C-Sources/safe-math.h"
   "${MODELICA_RESOURCES_DIR}/C-Sources/snprintf.c"
   "${MODELICA_RESOURCES_DIR}/C-Sources/stdint_msvc.h"
-  "${MODELICA_RESOURCES_DIR}/C-Sources/zlib/zlib.h"
+  "${ZLIB_HEADER_LOCATION}/zlib.h"
   "${MODELICA_UTILITIES_INCLUDE}/ModelicaUtilities.h"
 )
 
@@ -81,16 +89,21 @@ set(IO_SOURCES
   "${MODELICA_UTILITIES_INCLUDE}/ModelicaUtilities.h"
 )
 
-file(GLOB ZLIB_SOURCES
-  "${MODELICA_RESOURCES_DIR}/C-Sources/zlib/*.c"
-  "${MODELICA_RESOURCES_DIR}/C-Sources/zlib/*.h"
-)
+if(MODELICA_BUILD_ZLIB)
+  file(GLOB ZLIB_SOURCES
+    "${MODELICA_RESOURCES_DIR}/C-Sources/zlib/*.c"
+    "${MODELICA_RESOURCES_DIR}/C-Sources/zlib/*.h"
+  )
+endif()
 
 add_library(ModelicaExternalC STATIC ${EXTC_SOURCES})
 add_library(ModelicaStandardTables STATIC ${TABLES_SOURCES})
 add_library(ModelicaMatIO STATIC ${MATIO_SOURCES})
 add_library(ModelicaIO STATIC ${IO_SOURCES})
-add_library(zlib STATIC ${ZLIB_SOURCES})
+
+if(MODELICA_BUILD_ZLIB)
+  add_library(zlib STATIC ${ZLIB_SOURCES})
+endif()
 
 if(MODELICA_DEBUG_TIME_EVENTS)
   target_compile_definitions(ModelicaStandardTables PUBLIC -DDEBUG_TIME_EVENTS=1)
@@ -104,7 +117,7 @@ endif()
 if(MODELICA_DUMMY_FUNCTION_USERTAB)
   target_compile_definitions(ModelicaStandardTables PUBLIC -DDUMMY_FUNCTION_USERTAB=1)
 endif()
-if(HAVE_WINAPIFAMILY_H OR (HAVE__OPEN AND HAVE__READ AND HAVE__WRITE AND HAVE__CLOSE))
+if(MODELICA_BUILD_ZLIB AND (HAVE_WINAPIFAMILY_H OR (HAVE__OPEN AND HAVE__READ AND HAVE__WRITE AND HAVE__CLOSE)))
   target_compile_definitions(zlib PUBLIC -DWINAPI_FAMILY=100)
 endif()
 target_compile_definitions(ModelicaMatIO PUBLIC -DHAVE_ZLIB=1)
@@ -113,6 +126,20 @@ if(MSVC)
 endif()
 
 install(
-  TARGETS ModelicaStandardTables ModelicaMatIO ModelicaIO zlib
+  TARGETS ModelicaStandardTables ModelicaMatIO ModelicaIO
   LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
 )
+
+if(MODELICA_BUILD_ZLIB)
+  install(
+    TARGETS zlib
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
+endif()
+
+if(MODELICA_INSTALL_EXTC)
+  install(
+    TARGETS ModelicaExternalC
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+  )
+endif()
