@@ -33,7 +33,9 @@ equation
   connect(quadraticSpeedDependentForce.flange, mass.flange_b) annotation (
       Line(
       points={{52,0},{40,0}}, color={0,127,0}));
-  annotation (Documentation(info="<html>
+  annotation (
+    Documentation(
+      info="<html>
 <p>
 This model demonstrates the coupling between rotational and translational components:<br>
 A torque (step) accelerates both the inertia (of the wheel) and the mass (of the vehicle).<br>
@@ -53,12 +55,31 @@ Due to a speed dependent force (like a driving resistance), we find an equilibri
             ),
             Plot(
               curves = {
-                Curve(y = mass.v, legend = "Velocity of inertia connected to the wheel")
+                Curve(y = mass.v, legend = "Velocity of mass connected to the wheel")
+              }
+            )
+          }
+        ),
+        Figure(
+          title = "Torques and forces",
+          identifier = "855c3_f2",
+          preferred = false,
+          plots = {
+            Plot(
+              title = "Driving torque",
+              curves = {
+                Curve(y = torqueStep.tau)
+              }
+            ),
+            Plot(
+              title = "Driving resistance force",
+              curves = {
+                Curve(y = quadraticSpeedDependentForce.f)
               }
             )
           }
         )
       }
     ),
-       experiment(StopTime=5.0, Interval=0.001));
+    experiment(StopTime=5.0, Interval=0.001));
 end RollingWheel;

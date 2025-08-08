@@ -51,7 +51,8 @@ equation
     annotation (Line(points={{-81.2,0},{-69.6,0}}, color={0,0,127}));
   connect(torque.flange, inertia1.flange_a) annotation (Line(
       points={{-52,0},{-38,0}}));
-  annotation (Documentation(info="<html>
+  annotation (
+    Documentation(info="<html>
 <p>The drive train consists of a motor inertia which is driven by
 a sine-wave motor torque. Via a gearbox the rotational energy is
 transmitted to a load inertia. Elasticity in the gearbox is modeled
@@ -62,7 +63,6 @@ which is acting between a shaft and the housing has to be fixed
 in the housing on one side via component Fixed.</p>
 <p>Simulate for 1 second and plot the following variables:<br>
    angular velocities of inertias inertia2 and 3: inertia2.w, inertia3.w</p>
-
 </html>",
       figures = {
         Figure(
@@ -80,5 +80,5 @@ in the housing on one side via component Fixed.</p>
         )
       }
     ),
-       experiment(StopTime=1.0, Interval=0.001));
+    experiment(StopTime=1.0, Interval=0.001));
 end FirstGrounded;

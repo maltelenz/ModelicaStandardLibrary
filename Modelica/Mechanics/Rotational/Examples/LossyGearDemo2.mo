@@ -107,17 +107,23 @@ as component LossyGear includes the functionality of component BearingFriction
           preferred = true,
           plots = {
             Plot(
+              title = "Angular velocities",
+              identifier = "velocities",
               curves = {
-                Curve(y = Inertia1.w, legend = "Angular velocity of Inertia1"),
-                Curve(y = Inertia2.w, legend = "Angular velocity of Inertia2")
+                Curve(y = Inertia1.w),
+                Curve(y = Inertia2.w)
               }
             ),
             Plot(
+              title = "Power losses",
+              identifier = "powerLoss",
               curves = {
                 Curve(y = gear.lossPower, legend = "PowerLoss in gear")
               }
             ),
             Plot(
+              title = "Gear and bearing",
+              identifier = "gearMode",
               curves = {
                 Curve(y = bearingFriction.mode, legend = "Mode of bearingFriction (-1/0/+1 = backward sliding/locked/forward sliding)"),
                 Curve(y = gear.mode, legend = "Mode of gear (-1/0/+1 = backward sliding/locked/forward sliding)")
@@ -127,5 +133,5 @@ as component LossyGear includes the functionality of component BearingFriction
         )
       }
     ),
-       experiment(StopTime=0.5, Interval=0.001));
+    experiment(StopTime=0.5, Interval=0.001));
 end LossyGearDemo2;

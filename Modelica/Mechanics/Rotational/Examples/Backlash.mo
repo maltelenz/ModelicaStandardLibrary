@@ -34,7 +34,7 @@ model Backlash "Example to demonstrate backlash"
     annotation (Placement(transformation(extent={{20,-10},{40,10}})));
   Rotational.Components.Fixed fixed3
     annotation (Placement(transformation(extent={{-50,-50},{-30,-30}})));
-  Components.ElastoBacklash2           elastoBacklash2(
+  Components.ElastoBacklash2 elastoBacklash2(
     c=20E3,
     d=50,
     phi_nominal=1,
@@ -61,7 +61,9 @@ equation
     annotation (Line(points={{0,-40},{20,-40}}));
   connect(fixed3.flange, elastoBacklash2.flange_a)
     annotation (Line(points={{-40,-40},{-20,-40}}));
-  annotation (Documentation(info="<html>
+  annotation (
+    Documentation(
+      info="<html>
 <p>
 This model demonstrates the effect of a backlash on eigenfrequency, and
 also that the damping torque does not lead to unphysical pulling torques
@@ -74,11 +76,20 @@ Furthermore, it shows the differences of the
 </html>",
       figures = {
         Figure(
-          title = "Torques",
+          title = "Velocities and torques",
           identifier = "ca8cd",
           preferred = true,
           plots = {
             Plot(
+              title = "Angular velocities",
+              identifier = "velocities",
+              curves = {
+                Curve(y = inertia1.w, legend = "Inertia on springDamper"),
+                Curve(y = inertia2.w, legend = "Inertia on elastoBacklash"),
+                Curve(y = inertia3.w, legend = "Inertia on elastoBacklash2")}),
+            Plot(
+              title = "Torques",
+              identifier = "torques",
               curves = {
                 Curve(y = springDamper.tau, legend = "Torque from springDamper"),
                 Curve(y = elastoBacklash.tau, legend = "Torque from elastoBacklash"),
@@ -89,5 +100,5 @@ Furthermore, it shows the differences of the
         )
       }
     ),
-       experiment(StopTime=1.0, Interval=0.001));
+    experiment(StopTime=1.0, Interval=0.001));
 end Backlash;

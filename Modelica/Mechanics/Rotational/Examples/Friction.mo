@@ -84,7 +84,9 @@ equation
     annotation (Line(points={{-80,-10},{-80,-20},{0,-20}}));
   connect(brake.support, fixed.flange)
     annotation (Line(points={{70,-10},{70,-20},{0,-20}}));
-  annotation (Documentation(info="<html>
+  annotation (
+    Documentation(
+      info="<html>
 <p>This drive train contains a frictional <strong>clutch</strong> and a <strong>brake</strong>.
 Simulate the system for 1 second using the following initial
 values (defined already in the model):</p>
@@ -111,6 +113,7 @@ tSpring     Torque in spring
           preferred = true,
           plots = {
             Plot(
+              title = "Torques",
               curves = {
                 Curve(y = tBrake, legend = "Torque of brake"),
                 Curve(y = tClutch, legend = "Torque of clutch"),
@@ -119,16 +122,17 @@ tSpring     Torque in spring
               }
             ),
             Plot(
+              title = "Angular velocities",
               curves = {
-                Curve(y = inertia1.w, legend = "Angular velocity of inertia1"),
-                Curve(y = inertia2.w, legend = "Angular velocity of inertia2"),
-                Curve(y = inertia3.w, legend = "Angular velocity of inertia3")
+                Curve(y = inertia1.w),
+                Curve(y = inertia2.w),
+                Curve(y = inertia3.w)
               }
             )
           }
         )
       }
     ),
-       experiment(StopTime=3.0, Interval=0.001),
-  Diagram(coordinateSystem(extent = {{-170,-100},{120,100}})));
+    experiment(StopTime=3.0, Interval=0.001),
+    Diagram(coordinateSystem(extent = {{-170,-100},{120,100}})));
 end Friction;

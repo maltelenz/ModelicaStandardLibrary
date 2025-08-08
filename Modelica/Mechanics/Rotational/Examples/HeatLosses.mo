@@ -155,7 +155,8 @@ equation
                                                             color={191,0,0}));
 
   annotation (
-    Documentation(info="<html>
+    Documentation(
+      info="<html>
 <p>
 This model demonstrates how to model the dissipated power of a drive train,
 by enabling the heatPort of all components and connecting these heatPorts via
@@ -166,13 +167,13 @@ is present in variable convection.fluid.
 </html>",
       figures = {
         Figure(
-          title = "Heat flow loss",
           identifier = "5cd4c",
           preferred = true,
           plots = {
             Plot(
+              title = "Heat flow loss to convection component",
               curves = {
-                Curve(y = convection.Q_flow, legend = "Heat flow loss to convection component")
+                Curve(y = convection.Q_flow)
               }
             )
           }

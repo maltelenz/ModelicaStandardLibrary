@@ -57,7 +57,8 @@ equation
   connect(multiSensor.flange_a, springDamper.flange_b) annotation (Line(
       points={{20,-16},{20,-26}}));
   annotation (
-    Documentation(info="<html>
+    Documentation(
+      info="<html>
 <p>
 This model demonstrates the usage of the bearing flange.
 The gearbox is not connected rigidly to the ground, but by
@@ -75,13 +76,31 @@ Simulate for about 10 seconds and plot the angular velocities of the inertias <c
           plots = {
             Plot(
               curves = {
-                Curve(y = housing.w, legend = "Angular velocity of housing")
+                Curve(y = housing.w)
               }
             ),
             Plot(
               curves = {
-                Curve(y = shaft.w, legend = "Angular velocity of shaft"),
-                Curve(y = load.w, legend = "Angular velocity of load")
+                Curve(y = shaft.w),
+                Curve(y = load.w)
+              }
+            )
+          }
+        ),
+        Figure(
+          title = "Torques and accelerations",
+          identifier = "855c3_f2",
+          preferred = false,
+          plots = {
+            Plot(
+              title = "Torques",
+              curves = {
+                Curve(y = torque.tau, legend = "Driving torque on shaft")}),
+            Plot(
+              title = "Angular accelerations",
+              curves = {
+                Curve(y = shaft.a),
+                Curve(y = load.a)
               }
             )
           }
